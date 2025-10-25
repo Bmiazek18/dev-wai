@@ -5,10 +5,12 @@
     <link rel="stylesheet" href="static/css/styles.css"/>
 </head>
 <body>
-
-<form action="/image/add" method="post" enctype="multipart/form-data">
+<?php if (!empty($error)): ?>
+    <p style="color:red;"><?= htmlspecialchars($error) ?></p>
+<?php endif; ?>
+<form action="/upload" method="post" enctype="multipart/form-data">
   Select image to upload:
-  <input type="file" name="fileToUpload" id="fileToUpload">
+  <input type="file" name="file" id="fileToUpload">
   <input type="submit" value="Upload Image" name="submit">
 </form>
 
