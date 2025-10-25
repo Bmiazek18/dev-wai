@@ -8,5 +8,5 @@ $routing = [
     '/delete' => 'delete',
     '/cart' => 'cart',
     '/cart/clear' => 'clear_cart',
-    '/cart/add' => 'add_to_cart',
+    '/image/add' => 'add_image',
 ];
