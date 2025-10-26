@@ -1,26 +1,21 @@
 <?php
-class ImageUploadService
+class FileUploader
 {
     private $uploadDir = 'uploads/';
     private $allowedTypes = ['image/jpeg', 'image/png', 'image/jpg'];
     private $maxSize = 10 * 1024 * 1024; // 1 MB
+    private int $thumbWidth = 200;
+    private int $thumbHeight = 125;
 
-    private function createThumbnailFromServerFile(
-        string $filePath,
-        string $thumbDir = __DIR__ . '/thumbs',
-        int $thumbWidth = 200,
-        int $thumbHeight = 125,
-    ) {
+    private function createThumbnail(string $filePath, string $thumbDir)
+    {
         if (!file_exists($filePath)) {
             return false;
         }
-
-        // Utwórz folder miniatur, jeśli nie istnieje
         if (!is_dir($thumbDir)) {
             mkdir($thumbDir, 0775, true);
         }
 
-        // Pobierz informacje o pliku
         $info = getimagesize($filePath);
         if ($info === false) {
             return false;
@@ -28,7 +23,6 @@ class ImageUploadService
 
         [$origW, $origH, $type] = $info;
 
-        // Ustal format docelowy i rozszerzenie
         switch ($type) {
             case IMAGETYPE_JPEG:
                 $srcImg = imagecreatefromjpeg($filePath);
@@ -42,18 +36,14 @@ class ImageUploadService
                 return false; // tylko JPG i PNG
         }
 
-        // Zbuduj ścieżkę docelową miniatury (z oryginalnym rozszerzeniem)
         $baseName = pathinfo($filePath, PATHINFO_FILENAME);
         $thumbPath = rtrim($thumbDir, '/') . '/' . $baseName . '.' . $ext;
 
-        // Utwórz docelowy obraz o stałym rozmiarze 200x125
-        $thumbImg = imagecreatetruecolor($thumbWidth, $thumbHeight);
+        $thumbImg = imagecreatetruecolor($this->thumbWidth, $this->thumbHeight);
 
-        // Ustaw tło na białe
         $white = imagecolorallocate($thumbImg, 255, 255, 255);
-        imagefilledrectangle($thumbImg, 0, 0, $thumbWidth, $thumbHeight, $white);
+        imagefilledrectangle($thumbImg, 0, 0, $this->thumbWidth, $this->thumbHeight, $white);
 
-        // Przeskaluj i wklej obraz źródłowy (bez zachowania proporcji)
         imagecopyresampled(
             $thumbImg,
             $srcImg,
@@ -61,21 +51,18 @@ class ImageUploadService
             0,
             0,
             0,
-            $thumbWidth,
-            $thumbHeight,
+            $this->thumbWidth,
+            $this->thumbHeight,
             $origW,
             $origH,
         );
 
-        // Zapisz miniaturę w odpowiednim formacie
         if ($ext === 'jpg') {
             imagejpeg($thumbImg, $thumbPath, 90);
         } elseif ($ext === 'png') {
-            // PNG – kompresja od 0 (najlepsza jakość) do 9 (najmniejszy rozmiar)
             imagepng($thumbImg, $thumbPath, 6);
         }
 
-        // Zwolnij pamięć
         imagedestroy($srcImg);
         imagedestroy($thumbImg);
 
@@ -104,7 +91,7 @@ class ImageUploadService
         $target = $this->uploadDir . $filename;
 
         if (move_uploaded_file($file['tmp_name'], $target)) {
-            $this->createThumbnailFromServerFile($target, $this->uploadDir . 'thumbs/');
+            $this->createThumbnail($target, $this->uploadDir . 'thumbs/');
             return ['success' => true, 'filename' => $filename];
         }
 

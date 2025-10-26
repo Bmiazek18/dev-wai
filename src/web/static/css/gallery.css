@@ -1,0 +1,32 @@
+body {
+    font-family: Arial, sans-serif;
+    background: #fafafa;
+    padding: 30px;
+    text-align: center;
+}
+h1 {
+    margin-bottom: 25px;
+}
+.gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+.gallery a {
+    display: block;
+    text-decoration: none;
+}
+.gallery img {
+    width: 200px;
+    height: 125px;
+    object-fit: cover;
+    border-radius: 10px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.gallery img:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.35);
+}

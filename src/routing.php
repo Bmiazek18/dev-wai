@@ -1,6 +1,7 @@
 <?php
 
 $routing = [
-    '/' => ['controller' => 'ImageUploadController', 'action' => 'index'],
-    '/upload' => ['controller' => 'ImageUploadController', 'action' => 'store'],
+    '/dodaj-zdjecie' => ['controller' => 'ImageController', 'action' => 'index'],
+    '/upload' => ['controller' => 'ImageController', 'action' => 'store'],
+    '/' => ['controller' => 'GalleryController', 'action' => 'index'],
 ];
