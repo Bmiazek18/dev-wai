@@ -2,28 +2,37 @@
 namespace App\Services;
 class FileUploader
 {
-    private $uploadDir = 'uploads/';
-    private $allowedTypes = ['image/jpeg', 'image/png', 'image/jpg'];
-    private $maxSize = 10 * 1024 * 1024; // 1 MB
+    private string $uploadDir;
+    private array $allowedTypes = ['image/jpeg', 'image/png', 'image/jpg'];
+    private int $maxSize = 10 * 1024 * 1024; // 10 MB
     private int $thumbWidth = 200;
     private int $thumbHeight = 125;
 
-    private function createThumbnail(string $filePath, string $thumbDir)
+    public function __construct(string $uploadDir = 'uploads/')
     {
-        if (!file_exists($filePath)) {
-            return false;
+        $this->uploadDir = rtrim($uploadDir, '/') . '/';
+        if (!is_dir($this->uploadDir)) {
+            mkdir($this->uploadDir, 0775, true);
         }
-        if (!is_dir($thumbDir)) {
-            mkdir($thumbDir, 0775, true);
+    }
+
+    public function createThumbnail(
+        string $filePath,
+        bool $useThumbDir = false,
+        bool $uniqueName = false,
+    ): array {
+        if (!file_exists($filePath)) {
+            return ['success' => false, 'error' => 'Plik źródłowy nie istnieje.'];
         }
 
         $info = getimagesize($filePath);
         if ($info === false) {
-            return false;
+            return ['success' => false, 'error' => 'Nieprawidłowy format obrazu.'];
         }
 
         [$origW, $origH, $type] = $info;
 
+        // Wczytaj źródło
         switch ($type) {
             case IMAGETYPE_JPEG:
                 $srcImg = imagecreatefromjpeg($filePath);
@@ -34,14 +43,21 @@ class FileUploader
                 $ext = 'png';
                 break;
             default:
-                return false; // tylko JPG i PNG
+                return ['success' => false, 'error' => 'Obsługiwane tylko JPG i PNG.'];
         }
 
-        $baseName = pathinfo($filePath, PATHINFO_FILENAME);
-        $thumbPath = rtrim($thumbDir, '/') . '/' . $baseName . '.' . $ext;
+        // Nazwa miniatury jest zawsze unikalna
+        $filename = $uniqueName ? uniqid('thumb_', true) . '.' . $ext : basename($filePath);
+        $thumbDir = $useThumbDir ? $this->uploadDir . 'thumbs/' : $this->uploadDir;
 
+        if (!is_dir($thumbDir)) {
+            mkdir($thumbDir, 0775, true);
+        }
+
+        $thumbPath = $thumbDir . $filename;
+
+        // Miniatura dokładnie w zadanym rozmiarze (rozciągnięcie)
         $thumbImg = imagecreatetruecolor($this->thumbWidth, $this->thumbHeight);
-
         $white = imagecolorallocate($thumbImg, 255, 255, 255);
         imagefilledrectangle($thumbImg, 0, 0, $this->thumbWidth, $this->thumbHeight, $white);
 
@@ -59,15 +75,21 @@ class FileUploader
         );
 
         if ($ext === 'jpg') {
-            imagejpeg($thumbImg, $thumbPath, 90);
+            $success = imagejpeg($thumbImg, $thumbPath, 90);
         } elseif ($ext === 'png') {
-            imagepng($thumbImg, $thumbPath, 6);
+            $success = imagepng($thumbImg, $thumbPath, 6);
+        } else {
+            $success = false;
         }
 
         imagedestroy($srcImg);
         imagedestroy($thumbImg);
 
-        return $thumbPath;
+        return [
+            'success' => $success,
+            'filename' => $success ? basename($thumbPath) : null,
+            'path' => $success ? $thumbPath : null,
+        ];
     }
 
     public function upload($file)
@@ -92,7 +114,7 @@ class FileUploader
         $target = $this->uploadDir . $filename;
 
         if (move_uploaded_file($file['tmp_name'], $target)) {
-            $this->createThumbnail($target, $this->uploadDir . 'thumbs/');
+            $this->createThumbnail($target, true, false);
             return ['success' => true, 'filename' => $filename];
         }
 

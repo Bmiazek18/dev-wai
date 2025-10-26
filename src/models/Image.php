@@ -1,5 +1,5 @@
 <?php
-
+namespace App\Models;
 use MongoDB\BSON\UTCDateTime;
 
 class Image

@@ -1,7 +1,7 @@
 <?php
 namespace App\Services;
 use MongoDB\Client;
-
+use App\Models\User;
 class UserService
 {
     private $collection;

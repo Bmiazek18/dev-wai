@@ -1,5 +1,7 @@
 <h2>Rejestracja</h2>
-<form action="/auth/register" method="post">
+<form action="/auth/register" method="post" enctype="multipart/form-data">
+  Select image to upload:
+  <input type="file" name="file" id="fileToUpload"><br><br>
     <label>Username:</label><br>
     <input type="text" name="username" required><br><br>
 

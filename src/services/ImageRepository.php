@@ -1,7 +1,7 @@
 <?php
 namespace App\Services;
 use MongoDB\Client;
-
+use App\Models\Image;
 class ImageRepository
 {
     private $collection;

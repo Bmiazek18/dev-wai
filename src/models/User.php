@@ -1,17 +1,18 @@
 <?php
-
+namespace App\Models;
 class User
 {
     public string $username;
     public string $email;
     public string $passwordHash;
+    public string $avatarFilename;
     public \DateTime $createdAt;
 
     public function __construct(
         string $username,
         string $email,
         string $password,
-        string $avatarFilename = null,
+        string $avatarFilename,
     ) {
         $this->username = $username;
         $this->email = $email;

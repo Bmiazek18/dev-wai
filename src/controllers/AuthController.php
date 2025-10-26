@@ -11,7 +11,7 @@ class AuthController
     public function __construct()
     {
         $this->userService = new UserService();
-        $this->avatarUploader = new FileUploader('uploads/ProfilesFoto');
+        $this->avatarUploader = new FileUploader('uploads/PhotoFiles/');
     }
 
     public function register_index(&$model)
@@ -34,13 +34,14 @@ class AuthController
             $model['error'] = 'Wszystkie pola są wymagane';
             return 'register_form_view';
         }
-        $avatarFilename = null;
+        $avatarFilename = 'null';
         if ($file && $file['error'] !== UPLOAD_ERR_NO_FILE) {
-            $result = $this->avatarUploader->upload($file);
-            if (!$result['success']) {
-                $model['error'] = $result['error'];
-                return 'register_form';
+            $result = $this->avatarUploader->createThumbnail($file['tmp_name'], false, true);
+            if (!$result) {
+                $model['error'] = 'Nie udało się utworzyć miniatury.';
+                return 'register_form_view';
             }
+            echo $result['filename'];
             $avatarFilename = $result['filename'];
         }
 
