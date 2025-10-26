@@ -15,7 +15,7 @@ class ImageRepository
         $this->collection = $client->wai->images;
     }
 
-    public function save(Image $image): bool
+    public function save(Image $image)
     {
         $result = $this->collection->insertOne($image->toDocument());
         return $result->getInsertedCount() === 1;

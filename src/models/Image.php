@@ -17,7 +17,6 @@ class Image
         $this->createdAt = new \DateTime();
     }
 
-    // Zamienia model na dokument do MongoDB
     public function toDocument(): array
     {
         return [
