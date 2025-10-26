@@ -1,0 +1,33 @@
+<?php
+
+class User
+{
+    public string $username;
+    public string $email;
+    public string $passwordHash;
+    public \DateTime $createdAt;
+
+    public function __construct(
+        string $username,
+        string $email,
+        string $password,
+        string $avatarFilename = null,
+    ) {
+        $this->username = $username;
+        $this->email = $email;
+        $this->passwordHash = password_hash($password, PASSWORD_DEFAULT);
+        $this->avatarFilename = $avatarFilename;
+        $this->createdAt = new \DateTime();
+    }
+
+    public function toDocument(): array
+    {
+        return [
+            'username' => $this->username,
+            'email' => $this->email,
+            'passwordHash' => $this->passwordHash,
+            'avatarFilename' => $this->avatarFilename,
+            'created_at' => new \MongoDB\BSON\UTCDateTime($this->createdAt->getTimestamp() * 1000),
+        ];
+    }
+}

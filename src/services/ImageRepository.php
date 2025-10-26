@@ -1,6 +1,6 @@
 <?php
-
-use MongoDB\BSON\ObjectID;
+namespace App\Services;
+use MongoDB\Client;
 
 class ImageRepository
 {
@@ -8,7 +8,7 @@ class ImageRepository
 
     public function __construct()
     {
-        $client = new MongoDB\Client('mongodb://localhost:27017/wai', [
+        $client = new Client('mongodb://localhost:27017/wai', [
             'username' => 'wai_web',
             'password' => 'w@i_w3b',
         ]);

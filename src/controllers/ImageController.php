@@ -1,7 +1,7 @@
 <?php
-require_once '../services/FileUploader.php';
-require_once '../services/ImageRepository.php';
-require_once '../models/Image.php';
+use App\Services\FileUploader;
+use App\Services\ImageRepository;
+use App\Models\Image;
 
 class ImageController
 {
