@@ -13,6 +13,8 @@ class Dispatcher
 
     public function dispatch(string $action_url)
     {
+        $action_url = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+
         if (!isset($this->routing[$action_url])) {
             http_response_code(404);
             echo "404 - Brak routingu dla: $action_url";
@@ -50,6 +52,7 @@ class Dispatcher
     private function render(string $view_name, array $model)
     {
         extract($model);
+        include 'partials/header.php';
         include 'views/' . $view_name . '.php';
     }
 }

@@ -6,9 +6,12 @@ class GalleryController
 
     public function index(&$model)
     {
-        $thumbDir = '/var/www/dev/src/web' . '/uploads/thumbs';
-        $thumbs = glob($thumbDir . '/*.{jpg,jpeg,png,gif,JPG,JPEG,PNG,GIF}', GLOB_BRACE);
-        $model['thumbs'] = $thumbs;
+        $page = isset($_GET['page']) ? (int) $_GET['page'] : 1;
+        $perPage = 6;
+
+        $model['thumbs'] = $this->model->getThumbs($page, $perPage);
+        $model['currentPage'] = $page;
+        $model['totalPages'] = $this->model->getTotalPages($perPage);
         return 'gallery_view';
     }
 }

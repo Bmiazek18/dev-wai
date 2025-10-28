@@ -1,14 +1,21 @@
-<h2>Logowanie</h2>
-<form action="?action=auth/login" method="post">
-    <label>Email:</label><br>
-    <input type="email" name="email" required><br><br>
+<link rel="stylesheet" href="static/css/upload.css"/>
 
-    <label>Password:</label><br>
-    <input type="password" name="password" required><br><br>
+<div class="upload-form-container">
 
-    <button type="submit">Zaloguj się</button>
-</form>
+    <form action="/auth/login" method="post">
+        <h2>🔐 Logowanie</h2>
 
-<?php if (!empty($error)): ?>
-<p style="color:red;"><?= htmlspecialchars($error) ?></p>
-<?php endif; ?>
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>
+
+        <label for="password">Hasło:</label>
+        <input type="password" id="password" name="password" required>
+
+        <input type="submit" value="Zaloguj się">
+    </form>
+
+    <?php if (!empty($error)): ?>
+        <p class="upload-error"><?= htmlspecialchars($error) ?></p>
+    <?php endif; ?>
+
+</div>

@@ -70,11 +70,31 @@ class AuthController
 
         $result = $this->userService->login($email, $password);
         if ($result['success']) {
-            $model['user'] = $result['user'];
-            return 'gallery_view';
+            // Zapisujemy użytkownika do sesji
+            $_SESSION['user'] = [
+                'id' => (string) $result['user']['_id'],
+                'username' => $result['user']['username'] ?? 'Użytkownik',
+                'email' => $result['user']['email'],
+                'avatar' => $result['user']['avatarFilename'] ?? 'default.png',
+            ];
+
+            // Możesz przekierować do galerii
+            return 'redirect:/';
         } else {
             $model['error'] = $result['error'];
             return 'login_form_view';
         }
+    }
+    public function logout(array &$model)
+    {
+        // Usuwamy dane użytkownika z sesji
+        session_unset();
+        session_destroy();
+
+        // Komunikat o wylogowaniu
+        $model['message'] = 'Zostałeś wylogowany.';
+
+        // Powrót do ekranu logowania
+        return 'redirect:/logowanie';
     }
 }

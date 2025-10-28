@@ -1,23 +1,31 @@
-<h2>Rejestracja</h2>
-<form action="/auth/register" method="post" enctype="multipart/form-data">
-  Select image to upload:
-  <input type="file" name="file" id="fileToUpload"><br><br>
-    <label>Username:</label><br>
-    <input type="text" name="username" required><br><br>
+<link rel="stylesheet" href="static/css/upload.css"/>
 
-    <label>Email:</label><br>
-    <input type="email" name="email" required><br><br>
+<div class="upload-form-container">
 
-    <label>Password:</label><br>
-    <input type="password" name="password" required><br><br>
+    <form action="/auth/register" method="post" enctype="multipart/form-data">
+        <h2>🧑‍💻 Rejestracja</h2>
 
-    <button type="submit">Zarejestruj się</button>
-</form>
+        <label for="fileToUpload">Wybierz zdjęcie profilowe:</label>
+        <input type="file" name="file" id="fileToUpload" accept="image/*" required>
 
-<?php if (!empty($error)): ?>
-<p style="color:red;"><?= htmlspecialchars($error) ?></p>
-<?php endif; ?>
+        <label for="username">Nazwa użytkownika:</label>
+        <input type="text" id="username" name="username" required>
 
-<?php if (!empty($message)): ?>
-<p style="color:green;"><?= htmlspecialchars($message) ?></p>
-<?php endif; ?>
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>
+
+        <label for="password">Hasło:</label>
+        <input type="password" id="password" name="password" required>
+
+        <input type="submit" value="Zarejestruj się">
+    </form>
+
+    <?php if (!empty($error)): ?>
+        <p class="upload-error"><?= htmlspecialchars($error) ?></p>
+    <?php endif; ?>
+
+    <?php if (!empty($message)): ?>
+        <p class="upload-success"><?= htmlspecialchars($message) ?></p>
+    <?php endif; ?>
+
+</div>
