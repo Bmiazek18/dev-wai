@@ -18,9 +18,9 @@ class UserService
     public function register(User $user): array
     {
         // Sprawdź, czy email już istnieje
-        $existing = $this->collection->findOne(['email' => $user->email]);
+        $existing = $this->collection->findOne(['username' => $user->username]);
         if ($existing) {
-            return ['success' => false, 'error' => 'Email jest już zajęty'];
+            return ['success' => false, 'error' => 'Nazwa użytkownika jest już zajęta'];
         }
 
         $result = $this->collection->insertOne($user->toDocument());

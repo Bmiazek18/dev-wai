@@ -2,7 +2,7 @@
 namespace App\Services;
 use MongoDB\Client;
 use App\Models\Image;
-class ImageRepository
+class ImageService
 {
     private $collection;
 
@@ -19,5 +19,15 @@ class ImageRepository
     {
         $result = $this->collection->insertOne($image->toDocument());
         return $result->getInsertedCount() === 1;
+    }
+    public function getAll(int $skip = 0, int $limit = 10): array
+    {
+        $cursor = $this->collection->find([], ['skip' => $skip, 'limit' => $limit]);
+        return iterator_to_array($cursor);
+    }
+
+    public function count(): int
+    {
+        return $this->collection->countDocuments();
     }
 }

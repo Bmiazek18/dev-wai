@@ -52,7 +52,7 @@ class Dispatcher
     private function render(string $view_name, array $model)
     {
         extract($model);
-        include 'partials/header.php';
+        include 'views/partials/header.php';
         include 'views/' . $view_name . '.php';
     }
 }

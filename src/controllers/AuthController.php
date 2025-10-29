@@ -41,7 +41,7 @@ class AuthController
                 $model['error'] = 'Nie udało się utworzyć miniatury.';
                 return 'register_form_view';
             }
-            echo $result['filename'];
+
             $avatarFilename = $result['filename'];
         }
 

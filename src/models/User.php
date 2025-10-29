@@ -1,5 +1,6 @@
 <?php
 namespace App\Models;
+use MongoDB\BSON\UTCDateTime;
 class User
 {
     public string $username;
@@ -28,7 +29,7 @@ class User
             'email' => $this->email,
             'passwordHash' => $this->passwordHash,
             'avatarFilename' => $this->avatarFilename,
-            'created_at' => new \MongoDB\BSON\UTCDateTime($this->createdAt->getTimestamp() * 1000),
+            'created_at' => new UTCDateTime($this->createdAt->getTimestamp() * 1000),
         ];
     }
 }
