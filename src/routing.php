@@ -12,6 +12,7 @@ $routing = [
     '/zapamietaj' => ['controller' => 'ImageController', 'action' => 'remember'],
     '/usun_zapamietane' => ['controller' => 'ImageController', 'action' => 'removeRemembered'],
     '/aktualizuj_ilosc' => ['controller' => 'ImageController', 'action' => 'updateQuantity'],
-
+    '/szukaj' => ['controller' => 'ImageController', 'action' => 'search_index'],
+    '/ajax_search' => ['controller' => 'ImageController', 'action' => 'ajaxSearch'],
     '/' => ['controller' => 'GalleryController', 'action' => 'index'],
 ];

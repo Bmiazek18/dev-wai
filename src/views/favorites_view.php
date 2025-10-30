@@ -3,7 +3,7 @@
 
 <div class="gallery-container">
     <?php include 'partials/favorites.php'; ?>
-   
+    <form method="POST" >
 <div class="gallery">
 <?php if (!empty($images)): ?>
     <?php foreach ($images as $img): ?>
@@ -15,12 +15,12 @@
      $img['title'],
  ); ?></p>
 
-            <form method="POST" action="/aktualizuj_ilosc">
-                Ilość: <input type="number" name="quantity[<?php echo $id; ?>]" value="<?php echo $favorites[
+
+                Ilość: <input type="number"  name="quantity[<?php echo $id; ?>]" value="<?php echo $favorites[
     $id
 ]['quantity'] ?? 1; ?>" min="1">
-                <button type="submit">Zmień</button>
-            </form>
+                <button type="submit" formaction='/aktualizuj_ilosc'>Zmień</button>
+            
         </div>
     <?php endforeach; ?>
 <?php else: ?>
@@ -28,13 +28,13 @@
 <?php endif; ?>
 </div>
 
-<button type="submit">🗑️ Usuń zaznaczone z zapamiętanych</button>
-
+<button type="submit" formaction='/usun_zapamietane'>🗑️ Usuń zaznaczone z zapamiętanych</button>
+</form>
 
 <div class="cart-status">
     🧺 Razem elementów: <?php echo $cartCount ?? 0; ?>
     <a href="/">Powrót do galerii</a>
 </div>
 </div>
-    
+   
 </div>

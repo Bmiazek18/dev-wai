@@ -18,6 +18,10 @@ class ImageController
     {
         return 'upload_form_view';
     }
+    public function search_index(&$model)
+    {
+        return 'search_view';
+    }
     public function store(array &$model)
     {
         $author = $_POST['author'] ?? '';
@@ -115,5 +119,25 @@ class ImageController
             $total += $fav['quantity'];
         }
         return $total;
+    }
+    public function ajaxSearch()
+    {
+        $query = $_GET['q'] ?? '';
+        $photos = $this->service->searchByTitle($query);
+
+        $html = '';
+        foreach ($photos as $img) {
+            $filename = htmlspecialchars($img['filename']);
+            $title = htmlspecialchars($img['title']);
+            $author = htmlspecialchars($img['author']);
+            $html .= "
+                <div class='image-item'>
+                    <img src='uploads/{$filename}' alt='{$title}'>
+                    <p><strong>{$title}</strong><br>{$author}</p>
+                </div>
+            ";
+        }
+
+        return ['raw' => $html];
     }
 }

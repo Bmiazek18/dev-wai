@@ -34,7 +34,12 @@ class Dispatcher
         $model = [];
 
         $view_name = $controller->$action_name($model);
-
+        if (is_array($view_name) && isset($view_name['raw'])) {
+            // np. AJAX zwraca ['raw' => '<div>...</div>']
+            header('Content-Type: text/html; charset=UTF-8');
+            echo $view_name['raw'];
+            return;
+        }
         $this->buildResponse($view_name, $model);
     }
 

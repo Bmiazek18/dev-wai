@@ -31,6 +31,16 @@ class ImageService
         $cursor = $this->collection->find(['_id' => ['$in' => $objectIds]]);
         return iterator_to_array($cursor);
     }
+    public function searchByTitle(string $query)
+    {
+        if ($query === '') {
+            return [];
+        }
+        $cursor = $this->collection->find([
+            'title' => ['$regex' => $query, '$options' => 'i'],
+        ]);
+        return iterator_to_array($cursor);
+    }
 
     public function count(): int
     {

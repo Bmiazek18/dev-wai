@@ -10,7 +10,7 @@
         <nav class="nav-menu">
             <a href="/">Galeria</a>
             <a href="/dodaj-zdjecie">Dodaj zdjęcie</a>
-           
+           <a href="/szukaj">Szukaj zdjęć</a>
         </nav>
 
         <div class="user-panel">
