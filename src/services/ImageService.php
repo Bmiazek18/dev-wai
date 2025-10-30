@@ -25,6 +25,12 @@ class ImageService
         $cursor = $this->collection->find([], ['skip' => $skip, 'limit' => $limit]);
         return iterator_to_array($cursor);
     }
+    public function getByIds(array $ids): array
+    {
+        $objectIds = array_map(fn($id) => new \MongoDB\BSON\ObjectId($id), $ids);
+        $cursor = $this->collection->find(['_id' => ['$in' => $objectIds]]);
+        return iterator_to_array($cursor);
+    }
 
     public function count(): int
     {
