@@ -42,14 +42,24 @@ class ImageService
         $cursor = $this->collection->find(['_id' => ['$in' => $objectIds]]);
         return iterator_to_array($cursor);
     }
-    public function searchByTitle(string $query)
+    public function searchByTitle(string $query, ?string $currentUserId = null)
     {
         if ($query === '') {
             return [];
         }
-        $cursor = $this->collection->find([
-            'title' => ['$regex' => $query, '$options' => 'i'],
-        ]);
+
+        $filter = ['title' => ['$regex' => $query, '$options' => 'i']];
+
+        if ($currentUserId !== null) {
+            $filter['$or'] = [
+                ['is_private' => false], // Public images
+                ['user_id' => $currentUserId] // Current user's private images
+            ];
+        } else {
+            $filter['is_private'] = false; // Anonymous user sees only public images
+        }
+
+        $cursor = $this->collection->find($filter);
         return iterator_to_array($cursor);
     }
 

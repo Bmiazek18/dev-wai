@@ -132,21 +132,29 @@ class ImageController
     public function ajaxSearch()
     {
         $query = $_GET['q'] ?? '';
-        $photos = $this->service->searchByTitle($query);
+        $currentUserId = $_SESSION['user']['id'] ?? null; // Get current user ID
+
+        $photos = $this->service->searchByTitle($query, $currentUserId); // Pass current user ID
 
         $html = '';
         foreach ($photos as $img) {
             $filename = htmlspecialchars($img['filename']);
             $title = htmlspecialchars($img['title']);
             $author = htmlspecialchars($img['author']);
+            $isPrivate = isset($img['is_private']) && $img['is_private']; // Check if private
+
             $html .= "
                 <div class='image-item'>
-                    <img src='uploads/{$filename}' alt='{$title}'>
-                    <p><strong>{$title}</strong><br>{$author}</p>
+                    <img src='uploads/thumbs/{$filename}' alt='{$title}'>
+                    <p><strong>{$title}</strong><br>{$author}";
+            if ($isPrivate) {
+                $html .= " <span style='color: red; font-weight: bold;'>(Prywatne)</span>";
+            }
+            $html .= "</p>
                 </div>
             ";
         }
 
-        return ['raw' => $html];
+        return ['raw' => $html]; // Return as raw HTML
     }
 }
