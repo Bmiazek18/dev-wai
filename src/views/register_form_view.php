@@ -3,7 +3,7 @@
 <div class="upload-form-container">
 
     <form action="/auth/register" method="post" enctype="multipart/form-data">
-        <h2>🧑‍💻 Rejestracja</h2>
+        <h2>Rejestracja</h2>
 
         <label for="fileToUpload">Wybierz zdjęcie profilowe:</label>
         <input type="file" name="file" id="fileToUpload" accept="image/*" required>

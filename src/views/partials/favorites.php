@@ -9,7 +9,7 @@ foreach ($favorites as $fav) {
 
 <div class="cart-status">
     <div>
-        <strong>🖼️ Zapamiętane zdjęcia:</strong> 
+        <strong>Zapamiętane zdjęcia:</strong> 
         <span id="favorites-count"><?php echo $totalItems; ?></span>
     </div>
     <div>

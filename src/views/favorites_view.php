@@ -32,7 +32,7 @@
 </form>
 
 <div class="cart-status">
-    🧺 Razem elementów: <?php echo $cartCount ?? 0; ?>
+     Razem elementów: <?php echo $cartCount ?? 0; ?>
     <a href="/">Powrót do galerii</a>
 </div>
 </div>

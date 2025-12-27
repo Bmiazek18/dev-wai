@@ -15,7 +15,7 @@ $user = $_SESSION['user'] ?? null; ?>
 
 <div class="upload-form-container">
   <form action="/upload" method="post" enctype="multipart/form-data">
-    <h2>📷 Dodaj nowe zdjęcie</h2>
+    <h2> Dodaj nowe zdjęcie</h2>
 
     <label for="fileToUpload">Wybierz zdjęcie:</label>
     <input type="file" name="file" id="fileToUpload" accept="image/*" required>

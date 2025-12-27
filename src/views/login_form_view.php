@@ -3,7 +3,7 @@
 <div class="upload-form-container">
 
     <form action="/auth/login" method="post">
-        <h2>🔐 Logowanie</h2>
+        <h2>Logowanie</h2>
 
         <label for="email">Email:</label>
         <input type="email" id="email" name="email" required>

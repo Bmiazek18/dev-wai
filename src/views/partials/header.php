@@ -4,7 +4,7 @@
 <header class="main-header">
     <div class="container">
         <div class="logo">
-            <a href="/">🎨 Moja Galeria</a>
+            <a href="/"> Moja Galeria</a>
         </div>
 
         <nav class="nav-menu">

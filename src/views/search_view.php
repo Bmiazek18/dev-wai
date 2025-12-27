@@ -7,7 +7,7 @@
 </head>
 <body>
 <div class="gallery-container">
-<h2>🔍 Wyszukiwarka zdjęć</h2>
+<h2> Wyszukiwarka zdjęć</h2>
 <input type="text" id="search" placeholder="Wpisz fragment tytułu...">
 <div id="results" class="gallery"></div>
 </div>
