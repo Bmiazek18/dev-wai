@@ -6,10 +6,14 @@
         <div class="image-item">
             <input type="checkbox" name="selected[]" value="<?php echo $id; ?>"
                 <?php echo isset($favorites[$id]) ? 'checked' : ''; ?>>
-            <img src="uploads/<?php echo htmlspecialchars($img['filename']); ?>" alt="">
+            <img src="uploads/thumbs/<?php echo htmlspecialchars($img['filename']); ?>" alt="">
             <p><?php echo htmlspecialchars($img['author']); ?> – <?php echo htmlspecialchars(
      $img['title'],
- ); ?></p>
+ ); ?>
+ <?php if (isset($img['is_private']) && $img['is_private']): ?>
+    <span style="color: red; font-weight: bold;">(Prywatne)</span>
+ <?php endif; ?>
+</p>
         </div>
     <?php endforeach; ?>
 <?php else: ?>

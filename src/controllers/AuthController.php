@@ -1,4 +1,6 @@
 <?php
+namespace App\Controllers;
+
 use App\services\FileUploader;
 use App\Services\UserService;
 use App\Models\User;

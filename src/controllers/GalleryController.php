@@ -1,4 +1,6 @@
 <?php
+namespace App\Controllers;
+
 use App\Services\ImageService;
 class GalleryController
 {
@@ -14,8 +16,11 @@ class GalleryController
         $page = isset($_GET['page']) ? (int) $_GET['page'] : 1;
         $perPage = 6;
         $skip = ($page - 1) * $perPage;
-        $images = $this->service->getAll($skip, $perPage);
-        $total = $this->service->count();
+
+        $currentUserId = $_SESSION['user']['id'] ?? null;
+
+        $images = $this->service->getAll($skip, $perPage, $currentUserId);
+        $total = $this->service->count($currentUserId);
         $totalPages = (int) ceil($total / $perPage);
 
         $model = [

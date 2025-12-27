@@ -27,6 +27,16 @@ $user = $_SESSION['user'] ?? null; ?>
            value="<?= htmlspecialchars($user['username'] ?? '') ?>" 
            <?= $user ? 'readonly' : '' ?> required>
 
+    <?php if ($user): ?>
+    <div class="visibility-options">
+      <label>Widoczność:</label>
+      <input type="radio" id="public" name="visibility" value="public" checked>
+      <label for="public">Publiczne</label>
+      <input type="radio" id="private" name="visibility" value="private">
+      <label for="private">Prywatne</label>
+    </div>
+    <?php endif; ?>
+
     <input type="submit" value="Wyślij zdjęcie" name="submit">
   </form>
 </div>

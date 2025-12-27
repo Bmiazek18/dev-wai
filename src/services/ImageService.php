@@ -20,9 +20,20 @@ class ImageService
         $result = $this->collection->insertOne($image->toDocument());
         return $result->getInsertedCount() === 1;
     }
-    public function getAll(int $skip = 0, int $limit = 10): array
+    public function getAll(int $skip = 0, int $limit = 10, ?string $currentUserId = null): array
     {
-        $cursor = $this->collection->find([], ['skip' => $skip, 'limit' => $limit]);
+        $query = ['is_private' => false]; // Default: only public images
+
+        if ($currentUserId !== null) {
+            // If a user is logged in, show their private images as well
+            $query = [
+                '$or' => [
+                    ['is_private' => false], // Public images
+                    ['user_id' => $currentUserId] // Current user's private images
+                ]
+            ];
+        }
+        $cursor = $this->collection->find($query, ['skip' => $skip, 'limit' => $limit]);
         return iterator_to_array($cursor);
     }
     public function getByIds(array $ids): array
@@ -42,8 +53,19 @@ class ImageService
         return iterator_to_array($cursor);
     }
 
-    public function count(): int
+    public function count(?string $currentUserId = null): int
     {
-        return $this->collection->countDocuments();
+        $query = ['is_private' => false]; // Default: only public images
+
+        if ($currentUserId !== null) {
+            // If a user is logged in, count their private images as well
+            $query = [
+                '$or' => [
+                    ['is_private' => false], // Public images
+                    ['user_id' => $currentUserId] // Current user's private images
+                ]
+            ];
+        }
+        return $this->collection->countDocuments($query);
     }
 }

@@ -1,4 +1,6 @@
 <?php
+namespace App\Controllers;
+
 use App\Services\FileUploader;
 use App\Services\ImageService;
 use App\Models\Image;
@@ -37,8 +39,15 @@ class ImageController
 
         $filename = $uploadResult['filename'];
 
+        // Retrieve visibility status
+        $visibility = $_POST['visibility'] ?? 'public'; // Default to public
+        $isPrivate = ($visibility === 'private');
+
+        // Retrieve logged-in user's ID
+        $userId = $_SESSION['user']['id'] ?? null;
+
         // 2️⃣ Utwórz model Image
-        $image = new Image($author, $title, $filename);
+        $image = new Image($author, $title, $filename, $isPrivate, $userId);
 
         // 3️⃣ Zapis w MongoDB
         $saveSuccess = $this->service->save($image);

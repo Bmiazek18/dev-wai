@@ -10,5 +10,5 @@ require_once '../controllers/GalleryController.php';
 session_start();
 
 $action = $_GET['action'] ?? 'form';
-$dispatcher = new Dispatcher($routing);
+$dispatcher = new App\Dispatcher($routing);
 $dispatcher->dispatch($action);
