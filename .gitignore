@@ -1,6 +1,5 @@
 vendor
 node_modules
-.DS_Store
 .env
-src/.DS_Store
 src/web/uploads/*
+**/.DS_Store
